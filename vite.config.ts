@@ -4,4 +4,5 @@ import styleX from 'vite-plugin-stylex';
 
 export default defineConfig({
   plugins: [react(), styleX()],
+  base: '/mesai-takip/',
 });

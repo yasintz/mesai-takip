@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export function npointStorage(id: string) {
   const apiUrl = `https://api.npoint.io/${id}`;
   const set = async (value: string) => {
