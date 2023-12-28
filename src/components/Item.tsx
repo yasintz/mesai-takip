@@ -68,8 +68,8 @@ export function Item({
 
             <div
               style={{
-                color: '#989898',
-                fontSize: 14,
+                color: '#616161',
+                fontSize: '1.02rem',
                 fontStyle: 'italic',
                 fontWeight: 300,
               }}

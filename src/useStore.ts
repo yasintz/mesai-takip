@@ -17,7 +17,10 @@ type StoreType = {
   removeItem: (id: string) => void;
 };
 
-const npointId = '200f1ae3421c0a2561d5';
+const npointId = window.location.href.includes('localhost')
+  ? '00f74da55960d15d842a'
+  : '200f1ae3421c0a2561d5';
+
 export const useStore = create(
   persist<StoreType>(
     (set) => ({

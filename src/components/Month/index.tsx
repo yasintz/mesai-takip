@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import './month.scss';
+import cx from 'classnames';
+import styles from './style.module.scss';
 
 type MonthProps = {
   month: string;
@@ -21,19 +22,7 @@ export const Month = ({ month, onClick, isActive }: MonthProps) => {
       key={month}
       onClick={onClick}
       ref={ref}
-      className="month-item"
-      style={{
-        borderRadius: 6,
-        backgroundColor: 'white',
-        color: '#6b6d78',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        ...(isActive && {
-          color: 'white',
-          backgroundColor: '#ff543d',
-        }),
-      }}
+      className={cx(styles.container, isActive && styles.active)}
     >
       {month}
     </div>

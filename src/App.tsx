@@ -4,8 +4,8 @@ import { useSearchParams } from 'react-router-dom';
 import { useStore, ItemType } from './useStore';
 import { Item } from './components/Item';
 import { ItemEditCreate } from './components/ItemCreateEdit';
-import { Month } from './components/Month';
 import 'dayjs/locale/tr';
+import { MonthList } from './components/Month/List';
 
 dayjs.locale('tr');
 
@@ -111,30 +111,17 @@ function App() {
           Ekle
         </button>
 
-        <div
-          className="hide-scrollbar"
-          style={{
-            display: 'flex',
-            padding: '4px 16px 12px 16px',
-            overflowX: 'scroll',
-            width: 'calc(100% - 32px)',
-          }}
-        >
-          {months.map((month, index) => (
-            <Month
-              key={month}
-              month={month}
-              onClick={() => setActiveMonth(index)}
-              isActive={index === activeMonth}
-            />
-          ))}
-        </div>
+        <MonthList
+          months={months}
+          onClick={setActiveMonth}
+          activeMonthIndex={activeMonth}
+        />
 
         <div
           style={{
             padding: '0 16px',
             overflowY: 'scroll',
-            height: '100%',
+            height: 'calc(100% - 20px)',
           }}
         >
           {listItems.map((item) => (
