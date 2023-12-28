@@ -35,6 +35,7 @@ export function ItemEditCreate({
             value={data.hour}
             onChange={onInputChange('hour')}
             placeholder="00"
+            type="number"
           />
         </div>
         <div className="input">
@@ -43,6 +44,7 @@ export function ItemEditCreate({
             value={data.minute}
             onChange={onInputChange('minute')}
             placeholder="00"
+            type="number"
           />
         </div>
       </div>
