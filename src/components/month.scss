@@ -1,0 +1,8 @@
+.month-item {
+  margin-right: 8px;
+  &:last-child {
+    margin-right: 0;
+    min-width: 84px;
+    min-height: 32px;
+  }
+}
