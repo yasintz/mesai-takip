@@ -17,6 +17,10 @@ function getTimeText(item: ItemType) {
   }
 }
 
+function getTimeTextImage(item: ItemType) {
+  return (item.hour + item.minute / 60).toFixed(1);
+}
+
 export function Item({
   item,
   active,
@@ -26,11 +30,14 @@ export function Item({
   active?: boolean;
   onItemClick: () => void;
 }) {
-  const timeText = getTimeText(item);
+  const timeText = getTimeTextImage(item);
 
   const dateInstance = React.useMemo(() => dayjs(item.date), [item.date]);
 
-  const day = React.useMemo(() => dateInstance.format('DD'), [dateInstance]);
+  const day = React.useMemo(
+    () => dateInstance.format('DD MMMM, dddd'),
+    [dateInstance]
+  );
 
   const date = React.useMemo(() => dateInstance.format('dddd'), [dateInstance]);
 
@@ -39,9 +46,9 @@ export function Item({
       <div className={cx('item-container', { active })} onClick={onItemClick}>
         <div
           className="item-image"
-          style={{ backgroundColor: dayColors[date] }}
+          style={{ backgroundColor: dayColors[date], display: 'none' }}
         >
-          {day}
+          {timeText}
         </div>
         <div
           style={{
@@ -57,7 +64,7 @@ export function Item({
               marginBottom: 8,
             }}
           >
-            <div style={{ fontWeight: 600, color: '#313c47' }}>{timeText}</div>
+            <div style={{ fontWeight: 600, color: '#313c47' }}>{day}</div>
 
             <div
               style={{
@@ -67,7 +74,7 @@ export function Item({
                 fontWeight: 300,
               }}
             >
-              {date}
+              {getTimeText(item)}
             </div>
           </div>
           <div
