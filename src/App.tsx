@@ -1,35 +1,176 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import dayjs from 'dayjs';
+import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { BottomSheet } from 'react-spring-bottom-sheet';
+import './app.scss';
+import 'dayjs/locale/tr';
+import 'react-spring-bottom-sheet/dist/style.css';
+import { useStore, ItemType } from './useStore';
+import { Item } from './components/Item';
+import { ItemEditCreate } from './components/ItemCreateEdit';
+import { Month } from './components/Month';
+
+dayjs.locale('tr');
+
+const snapPoints = () => window.innerHeight * 0.88;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [activeMonth, setActiveMonth] = useState(() => new Date().getMonth());
+  const { items, addItem, updateItem, removeItem } = useStore();
+
+  const listItems = useMemo(() => {
+    const monthStart = dayjs().set('month', activeMonth).startOf('month');
+    const monthEnd = monthStart.endOf('month');
+
+    const startTime = monthStart.toDate().getTime();
+    const endTime = monthEnd.toDate().getTime();
+    return items
+      .filter((i) => {
+        const itemDate = dayjs(i.date).toDate().getTime();
+
+        return itemDate >= startTime && itemDate <= endTime;
+      })
+      .sort((a, b) => dayjs(a.date).diff(b.date));
+  }, [activeMonth, items]);
+
+  const selectedItemId = searchParams.get('item');
+  const selectedItem = items.find((i) => i.id === selectedItemId);
+
+  const saveItem = (item: Omit<ItemType, 'id'>) => {
+    if (selectedItemId) {
+      updateItem(selectedItemId, item);
+      return;
+    }
+    addItem({
+      id: Math.random().toString(36).substring(2, 7),
+      ...item,
+    });
+
+    setShowCreateModal(false);
+    setSearchParams((prev) => ({
+      ...prev,
+      item: '',
+    }));
+  };
+
+  const months = [
+    'Ocak',
+    'Subat',
+    'Mart',
+    'Nisan',
+    'Mayis',
+    'Haziran',
+    'Temmuz',
+    'Agustos',
+    'Eylul',
+    'Ekim',
+    'Kasim',
+    'Aralik',
+  ];
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <div style={{ height: '100%' }}>
+        <button
+          className="button"
+          style={{ width: 'calc(100% - 32px)', margin: 16 }}
+          onClick={() => setShowCreateModal(true)}
+        >
+          Ekle
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+        <div
+          style={{
+            display: 'flex',
+            padding: '4px 16px 12px 16px',
+            overflowX: 'scroll',
+            width: 'calc(100% - 32px)',
+          }}
+        >
+          {months.map((month, index) => (
+            <Month
+              key={month}
+              month={month}
+              onClick={() => setActiveMonth(index)}
+              isActive={index === activeMonth}
+            />
+          ))}
+        </div>
+
+        <div
+          style={{
+            padding: '0 16px',
+            overflowY: 'scroll',
+            height: '100%',
+          }}
+        >
+          {listItems.map((item) => (
+            <Item
+              key={item.id}
+              item={item}
+              active={selectedItemId === item.id}
+              onItemClick={() =>
+                setSearchParams((prev) => ({ ...prev, item: item.id }))
+              }
+            />
+          ))}
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <BottomSheet
+        open={!!selectedItemId || showCreateModal}
+        onDismiss={() => {
+          setSearchParams((prev) => ({
+            ...prev,
+            item: '',
+          }));
+          setShowCreateModal(false);
+        }}
+        snapPoints={snapPoints}
+      >
+        <div style={{ padding: 16, display: 'flex', flexDirection: 'column' }}>
+          <ItemEditCreate
+            key={selectedItem?.id}
+            item={selectedItem}
+            onSave={saveItem}
+          />
+          {selectedItemId && (
+            <button
+              className="button danger"
+              style={{ marginTop: 12 }}
+              onClick={() => {
+                setSearchParams((prev) => ({
+                  ...prev,
+                  item: '',
+                }));
+                setTimeout(() => {
+                  removeItem(selectedItemId);
+                }, 0);
+              }}
+            >
+              Sil
+            </button>
+          )}
+
+          <button
+            className="button secondary"
+            style={{ marginTop: 12 }}
+            onClick={() => {
+              setSearchParams((prev) => ({
+                ...prev,
+                item: '',
+              }));
+              setShowCreateModal(false);
+            }}
+          >
+            Kapat
+          </button>
+        </div>
+      </BottomSheet>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
