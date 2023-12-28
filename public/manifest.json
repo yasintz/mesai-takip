@@ -1,0 +1,16 @@
+{
+  "name": "Mesai Takip",
+  "short_name": "mesaitakip",
+  "description": "Progressive Web App that lists games submitted to the A-Frame category in the js13kGames 2017 competition.",
+  "icons": [
+    {
+      "src": "icon.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ],
+  "start_url": "/pwa-examples/js13kpwa/index.html",
+  "display": "fullscreen",
+  "theme_color": "#ff543d",
+  "background_color": "#ff543d"
+}
