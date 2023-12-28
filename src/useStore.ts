@@ -41,16 +41,13 @@ export const useStore = create(
   )
 );
 
-if (!localStorage.getItem('synced')) {
-  npointStorage(npointId)
-    .getItem()
-    .then((res) => {
-      const json = JSON.parse(res);
+npointStorage(npointId)
+  .getItem()
+  .then((res) => {
+    const json = JSON.parse(res);
 
-      useStore.setState(json);
-    });
-} else {
-  setInterval(() => {
-    npointStorage(npointId).setItem('', JSON.stringify(useStore.getState()));
-  }, 2000);
-}
+    useStore.setState(json);
+    setInterval(() => {
+      npointStorage(npointId).setItem('', JSON.stringify(useStore.getState()));
+    }, 2000);
+  });

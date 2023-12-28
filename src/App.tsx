@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { BottomSheet } from 'react-spring-bottom-sheet';
 import { useStore, ItemType } from './useStore';
 import { Item } from './components/Item';
 import { ItemEditCreate } from './components/ItemCreateEdit';
@@ -10,21 +9,19 @@ import 'dayjs/locale/tr';
 
 dayjs.locale('tr');
 
-const snapPoints = () => window.innerHeight * 0.88;
-
 const months = [
   'Ocak',
-  'Subat',
+  'Şubat',
   'Mart',
   'Nisan',
-  'Mayis',
+  'Mayıs',
   'Haziran',
   'Temmuz',
-  'Agustos',
-  'Eylul',
+  'Ağustos',
+  'Eylül',
   'Ekim',
-  'Kasim',
-  'Aralik',
+  'Kasım',
+  'Aralık',
 ];
 
 function App() {
@@ -74,6 +71,35 @@ function App() {
     }));
   };
 
+  if (showCreateModal || selectedItem) {
+    return (
+      <div style={{ padding: 16, display: 'flex', flexDirection: 'column' }}>
+        <ItemEditCreate
+          key={selectedItem?.id}
+          item={selectedItem}
+          onSave={saveItem}
+        />
+        {selectedItemId && (
+          <button
+            className="button danger"
+            style={{ marginTop: 12 }}
+            onClick={() => {
+              setSearchParams((prev) => ({
+                ...prev,
+                item: '',
+              }));
+              setTimeout(() => {
+                removeItem(selectedItemId);
+              }, 0);
+            }}
+          >
+            Sil
+          </button>
+        )}
+      </div>
+    );
+  }
+
   return (
     <>
       <div style={{ height: '100%' }}>
@@ -86,6 +112,7 @@ function App() {
         </button>
 
         <div
+          className="hide-scrollbar"
           style={{
             display: 'flex',
             padding: '4px 16px 12px 16px',
@@ -122,57 +149,6 @@ function App() {
           ))}
         </div>
       </div>
-
-      <BottomSheet
-        open={!!selectedItemId || showCreateModal}
-        onDismiss={() => {
-          setSearchParams((prev) => ({
-            ...prev,
-            item: '',
-          }));
-          setShowCreateModal(false);
-        }}
-        snapPoints={snapPoints}
-      >
-        <div style={{ padding: 16, display: 'flex', flexDirection: 'column' }}>
-          <ItemEditCreate
-            key={selectedItem?.id}
-            item={selectedItem}
-            onSave={saveItem}
-          />
-          {selectedItemId && (
-            <button
-              className="button danger"
-              style={{ marginTop: 12 }}
-              onClick={() => {
-                setSearchParams((prev) => ({
-                  ...prev,
-                  item: '',
-                }));
-                setTimeout(() => {
-                  removeItem(selectedItemId);
-                }, 0);
-              }}
-            >
-              Sil
-            </button>
-          )}
-
-          <button
-            className="button secondary"
-            style={{ marginTop: 12 }}
-            onClick={() => {
-              setSearchParams((prev) => ({
-                ...prev,
-                item: '',
-              }));
-              setShowCreateModal(false);
-            }}
-          >
-            Kapat
-          </button>
-        </div>
-      </BottomSheet>
     </>
   );
 }
