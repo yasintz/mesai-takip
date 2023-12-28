@@ -14,6 +14,21 @@ dayjs.locale('tr');
 
 const snapPoints = () => window.innerHeight * 0.88;
 
+const months = [
+  'Ocak',
+  'Subat',
+  'Mart',
+  'Nisan',
+  'Mayis',
+  'Haziran',
+  'Temmuz',
+  'Agustos',
+  'Eylul',
+  'Ekim',
+  'Kasim',
+  'Aralik',
+];
+
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -54,21 +69,6 @@ function App() {
       item: '',
     }));
   };
-
-  const months = [
-    'Ocak',
-    'Subat',
-    'Mart',
-    'Nisan',
-    'Mayis',
-    'Haziran',
-    'Temmuz',
-    'Agustos',
-    'Eylul',
-    'Ekim',
-    'Kasim',
-    'Aralik',
-  ];
 
   return (
     <>
