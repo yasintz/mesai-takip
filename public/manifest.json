@@ -4,12 +4,12 @@
   "description": "Progressive Web App that lists games submitted to the A-Frame category in the js13kGames 2017 competition.",
   "icons": [
     {
-      "src": "icon.webp",
+      "src": "icon.png",
       "sizes": "512x512",
-      "type": "image/webp"
+      "type": "image/png"
     }
   ],
-  "start_url": "/pwa-examples/js13kpwa/index.html",
+  "start_url": "/mesai-takip",
   "display": "fullscreen",
   "theme_color": "#ff543d",
   "background_color": "#ff543d"
