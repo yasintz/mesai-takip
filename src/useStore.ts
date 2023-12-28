@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 import { npointStorage } from './utils/npointStorage';
 
 export type ItemType = {
@@ -19,30 +19,38 @@ type StoreType = {
 
 const npointId = '200f1ae3421c0a2561d5';
 export const useStore = create(
-  persist(
-    persist<StoreType>(
-      (set) => ({
-        items: [],
-        addItem: (item) =>
-          set((prev) => ({
-            items: [...prev.items, item],
-          })),
-        updateItem: (id, item) =>
-          set((prev) => ({
-            items: prev.items.map((i) => (i.id === id ? { ...i, item } : i)),
-          })),
-        removeItem: (id) =>
-          set((prev) => ({
-            items: prev.items.filter((i) => i.id !== id),
-          })),
-      }),
-      {
-        name: npointId,
-      }
-    ),
+  persist<StoreType>(
+    (set) => ({
+      items: [],
+      addItem: (item) =>
+        set((prev) => ({
+          items: [...prev.items, item],
+        })),
+      updateItem: (id, item) =>
+        set((prev) => ({
+          items: prev.items.map((i) => (i.id === id ? { ...i, item } : i)),
+        })),
+      removeItem: (id) =>
+        set((prev) => ({
+          items: prev.items.filter((i) => i.id !== id),
+        })),
+    }),
     {
       name: npointId,
-      storage: createJSONStorage(() => npointStorage(npointId)),
     }
   )
 );
+
+if (!localStorage.getItem('synced')) {
+  npointStorage(npointId)
+    .getItem()
+    .then((res) => {
+      const json = JSON.parse(res);
+
+      useStore.setState(json);
+    });
+} else {
+  setInterval(() => {
+    npointStorage(npointId).setItem('', JSON.stringify(useStore.getState()));
+  }, 2000);
+}
