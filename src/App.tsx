@@ -29,7 +29,6 @@ const months = [
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showCreateModal, setShowCreateModal] = useState(false);
   const [activeMonth, setActiveMonth] = useState(() => new Date().getMonth());
   const { items, addItem, updateItem, removeItem } = useStore();
 
@@ -49,7 +48,14 @@ function App() {
   }, [activeMonth, items]);
 
   const selectedItemId = searchParams.get('item');
+  const showCreateModal = Boolean(searchParams.get('showCreate'));
   const selectedItem = items.find((i) => i.id === selectedItemId);
+
+  const setShowCreateModal = (bool: boolean) =>
+    setSearchParams((prev) => ({
+      ...prev,
+      showCreate: bool ? 'true' : '',
+    }));
 
   const saveItem = (item: Omit<ItemType, 'id'>) => {
     if (selectedItemId) {
