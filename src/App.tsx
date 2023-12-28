@@ -2,13 +2,11 @@ import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BottomSheet } from 'react-spring-bottom-sheet';
-import './app.scss';
-import 'dayjs/locale/tr';
-import 'react-spring-bottom-sheet/dist/style.css';
 import { useStore, ItemType } from './useStore';
 import { Item } from './components/Item';
 import { ItemEditCreate } from './components/ItemCreateEdit';
 import { Month } from './components/Month';
+import 'dayjs/locale/tr';
 
 dayjs.locale('tr');
 
