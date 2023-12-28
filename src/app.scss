@@ -1,6 +1,6 @@
 * {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 1rem;
+  font-size: 1.15rem;
 }
 body,
 html,
@@ -27,7 +27,7 @@ body {
     }
     display: flex;
     transition: transform ease 0.2s;
-    padding: 8px;
+    padding: 12px;
     background-color: white;
     gap: 8px;
     margin-bottom: 8px;

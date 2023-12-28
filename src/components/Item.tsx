@@ -61,7 +61,7 @@ export function Item({
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              marginBottom: 8,
+              marginBottom: 12,
             }}
           >
             <div style={{ fontWeight: 600, color: '#313c47' }}>{day}</div>
