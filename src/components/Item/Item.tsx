@@ -1,8 +1,9 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { ItemType } from '../useStore';
-import { dayColors } from '../colors';
+import { ItemType } from 'src/useStore';
+import { dayColors } from 'src/colors';
 import cx from 'classnames';
+import styles from './styles.module.scss';
 
 function getTimeText(item: ItemType) {
   if (item.minute && item.hour) {
@@ -43,7 +44,10 @@ export function Item({
 
   return (
     <div>
-      <div className={cx('item-container', { active })} onClick={onItemClick}>
+      <div
+        className={cx('item-container', styles.container, { active })}
+        onClick={onItemClick}
+      >
         <div
           className="item-image"
           style={{ backgroundColor: dayColors[date], display: 'none' }}

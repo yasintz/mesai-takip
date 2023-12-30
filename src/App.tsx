@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useStore, ItemType } from './useStore';
-import { Item } from './components/Item';
-import { ItemEditCreate } from './components/ItemCreateEdit';
+import { Item } from './components/Item/Item';
+import { ItemEditCreate } from './components/ItemCreateEdit/ItemCreateEdit';
 import 'dayjs/locale/tr';
 import { MonthList } from './components/Month/List';
 
@@ -57,12 +57,12 @@ function App() {
   const saveItem = (item: Omit<ItemType, 'id'>) => {
     if (selectedItemId) {
       updateItem(selectedItemId, item);
-      return;
+    } else {
+      addItem({
+        id: Math.random().toString(36).substring(2, 7),
+        ...item,
+      });
     }
-    addItem({
-      id: Math.random().toString(36).substring(2, 7),
-      ...item,
-    });
 
     setShowCreateModal(false);
     setSearchParams((prev) => ({
@@ -70,6 +70,13 @@ function App() {
       item: '',
     }));
   };
+
+  const totalMinutes = listItems
+    .map((i) => i.hour * 60 + i.minute)
+    .reduce((acc, res) => acc + res, 0);
+
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes - hours * 60;
 
   if (showCreateModal || selectedItem) {
     return (
@@ -116,12 +123,15 @@ function App() {
           onClick={setActiveMonth}
           activeMonthIndex={activeMonth}
         />
+        <div className="mb-3 pl-4 pr-4">
+          Toplam {hours} saat {minutes} dakika
+        </div>
 
         <div
           style={{
             padding: '0 16px',
             overflowY: 'scroll',
-            height: 'calc(100% - 20px)',
+            height: 'calc(100% - 50px)',
           }}
         >
           {listItems.map((item) => (

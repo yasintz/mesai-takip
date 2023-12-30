@@ -8,6 +8,7 @@ export type ItemType = {
   note?: string;
   hour: number;
   minute: number;
+  isPublicHoliday?: boolean;
 };
 
 type StoreType = {
@@ -31,7 +32,7 @@ export const useStore = create(
         })),
       updateItem: (id, item) =>
         set((prev) => ({
-          items: prev.items.map((i) => (i.id === id ? { ...i, item } : i)),
+          items: prev.items.map((i) => (i.id === id ? { ...i, ...item } : i)),
         })),
       removeItem: (id) =>
         set((prev) => ({

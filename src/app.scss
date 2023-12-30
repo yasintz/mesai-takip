@@ -1,3 +1,5 @@
+@import 'src/variables.scss';
+
 * {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 1.07rem;
@@ -283,5 +285,32 @@ body {
 
   &::-webkit-scrollbar-thumb {
     background-color: transparent;
+  }
+}
+
+$items: (
+  'margin': 'm',
+  'padding': 'p',
+);
+
+$prefixes: (
+  'top': 't',
+  'bottom': 'b',
+  'left': 'l',
+  'right': 'r',
+);
+
+@for $size from 1 through 8 {
+  $remValue: #{$size/4}rem;
+  @each $name, $key in $items {
+    .#{$key}-#{$size} {
+      #{$name}: $remValue;
+    }
+
+    @each $pName, $pKey in $prefixes {
+      .#{$key}#{$pKey}-#{$size} {
+        #{$name}-#{$pName}: $remValue;
+      }
+    }
   }
 }
