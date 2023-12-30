@@ -1,7 +1,7 @@
 {
   "name": "Mesai Takip",
   "short_name": "Mesai Takip",
-  "description": "Progressive Web App that lists games submitted to the A-Frame category in the js13kGames 2017 competition.",
+  "description": "Mesai takip uygulamasi",
   "icons": [
     {
       "src": "icon.png",
