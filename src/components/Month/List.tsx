@@ -20,7 +20,7 @@ export const MonthList = ({
   onClick,
 }: MonthListProps) => {
   return (
-    <div className={cx('hide-scrollbar', styles.listContainer)}>
+    <div className={cx('mb-4', styles.listContainer)}>
       {months.map((month) => (
         <Month
           key={month.id}

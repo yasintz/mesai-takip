@@ -116,12 +116,17 @@ function App() {
 
   return (
     <>
-      <div style={{ height: '100%' }}>
-        <button
-          className="button"
-          style={{ width: 'calc(100% - 32px)', margin: 16 }}
-          onClick={() => setShowCreateModal(true)}
-        >
+      <div
+        style={{
+          height: '100%',
+          gap: '1rem',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '1rem',
+          paddingBottom: 0,
+        }}
+      >
+        <button className="button" onClick={() => setShowCreateModal(true)}>
           Ekle
         </button>
 
@@ -130,13 +135,12 @@ function App() {
           onClick={setActiveMonthId}
           activeMonthId={activeMonthId}
         />
-        <div className="mb-3 pl-4 pr-4">
+        <div>
           Toplam {hours} saat {minutes} dakika
         </div>
 
         <div
           style={{
-            padding: '0 16px',
             overflowY: 'scroll',
             height: 'calc(100% - 50px)',
           }}
