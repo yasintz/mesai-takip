@@ -55,11 +55,19 @@ function App() {
   const showCreateModal = Boolean(searchParams.get('showCreate'));
   const selectedItem = items.find((i) => i.id === selectedItemId);
 
-  const setShowCreateModal = (bool: boolean) =>
+  const setShowCreateModal = () =>
     setSearchParams((prev) => ({
       ...prev,
-      showCreate: bool ? 'true' : '',
+      showCreate: 'true',
     }));
+
+  const closeModal = () => {
+    setSearchParams((prev) => {
+      prev.delete('item');
+      prev.delete('showCreate');
+      return { ...prev };
+    });
+  };
 
   const saveItem = (item: Omit<ItemType, 'id'>) => {
     if (selectedItemId) {
@@ -71,11 +79,7 @@ function App() {
       });
     }
 
-    setShowCreateModal(false);
-    setSearchParams((prev) => ({
-      ...prev,
-      item: '',
-    }));
+    closeModal();
   };
 
   const totalMinutes = listItems
@@ -87,37 +91,39 @@ function App() {
 
   if (showCreateModal || selectedItem) {
     return (
-      <div style={{ padding: 16, display: 'flex', flexDirection: 'column' }}>
-        <ItemEditCreate
-          key={selectedItem?.id}
-          item={selectedItem}
-          onSave={saveItem}
-        />
-        {selectedItemId && (
-          <button
-            className="button danger"
-            style={{ marginTop: 12 }}
-            onClick={() => {
-              setSearchParams((prev) => ({
-                ...prev,
-                item: '',
-              }));
-              setTimeout(() => {
-                removeItem(selectedItemId);
-              }, 0);
-            }}
-          >
-            Sil
-          </button>
-        )}
-      </div>
+      <>
+        <div className="page-container">
+          <ItemEditCreate
+            key={selectedItem?.id}
+            item={selectedItem}
+            onSave={saveItem}
+          />
+          {selectedItemId && (
+            <button
+              className="button danger"
+              style={{ marginTop: 12 }}
+              onClick={() => {
+                setSearchParams((prev) => ({
+                  ...prev,
+                  item: undefined,
+                }));
+                setTimeout(() => {
+                  removeItem(selectedItemId);
+                }, 0);
+              }}
+            >
+              Sil
+            </button>
+          )}
+        </div>
+      </>
     );
   }
 
   return (
     <>
       <div className="page-container">
-        <button className="button" onClick={() => setShowCreateModal(true)}>
+        <button className="button" onClick={setShowCreateModal}>
           Ekle
         </button>
 

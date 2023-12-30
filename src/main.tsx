@@ -8,5 +8,3 @@ import './app.scss';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <RouterProvider router={router} />
 );
-
-document.documentElement.requestFullscreen({ navigationUI: 'show' });
