@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { npointStorage } from './utils/npointStorage';
+import { throttle } from './utils/throttle';
 
 export type ItemType = {
   id: string;
@@ -45,13 +46,27 @@ export const useStore = create(
   )
 );
 
+const throttledReSync = throttle(
+  (store: StoreType) =>
+    npointStorage(npointId).setItem(
+      '',
+      JSON.stringify({
+        ...store,
+        items: store.items.map((i) => ({
+          ...i,
+          item: undefined,
+        })),
+      })
+    ),
+  2000
+);
+
 npointStorage(npointId)
   .getItem()
   .then((res) => {
     const json = JSON.parse(res);
 
     useStore.setState(json);
-    setInterval(() => {
-      npointStorage(npointId).setItem('', JSON.stringify(useStore.getState()));
-    }, 2000);
+
+    useStore.subscribe(throttledReSync);
   });
