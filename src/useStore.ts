@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { npointStorage } from './utils/npointStorage';
 import { throttle } from './utils/throttle';
+import { googleSheetDb } from './utils/googleSheetDb';
 
 export type ItemType = {
   id: string;
@@ -19,9 +19,9 @@ type StoreType = {
   removeItem: (id: string) => void;
 };
 
-const npointId = window.location.href.includes('localhost')
-  ? '00f74da55960d15d842a'
-  : '200f1ae3421c0a2561d5';
+const sheetTabId = window.location.href.includes('localhost')
+  ? '728138143'
+  : '0';
 
 export const useStore = create(
   persist<StoreType>(
@@ -41,32 +41,31 @@ export const useStore = create(
         })),
     }),
     {
-      name: npointId,
+      name: '200f1ae3421c0a2561d5',
     }
   )
 );
 
-const throttledReSync = throttle(
-  (store: StoreType) =>
-    npointStorage(npointId).setItem(
-      '',
-      JSON.stringify({
-        ...store,
-        items: store.items.map((i) => ({
-          ...i,
-          item: undefined,
-        })),
-      })
-    ),
-  2000
-);
+const throttledReSync = throttle((store: StoreType) => {
+  const storageData = {
+    ...store,
+    items: store.items.map((i) => ({
+      ...i,
+      item: undefined,
+    })),
+  };
 
-npointStorage(npointId)
-  .getItem()
+  googleSheetDb(sheetTabId).set(JSON.stringify(storageData));
+}, 2000);
+
+googleSheetDb(sheetTabId)
+  .get()
   .then((res) => {
     const json = JSON.parse(res);
 
     useStore.setState(json);
 
     useStore.subscribe(throttledReSync);
+
+    googleSheetDb(sheetTabId).set(res);
   });
