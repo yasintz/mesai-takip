@@ -3,25 +3,30 @@ import styles from './style.module.scss';
 
 import { Month } from '.';
 
+export type MonthType = {
+  id: number;
+  name: string;
+};
+
 type MonthListProps = {
-  months: string[];
-  onClick: (index: number) => void;
-  activeMonthIndex: number;
+  months: Array<MonthType>;
+  onClick: (monthId: number) => void;
+  activeMonthId: number;
 };
 
 export const MonthList = ({
   months,
-  activeMonthIndex,
+  activeMonthId,
   onClick,
 }: MonthListProps) => {
   return (
     <div className={cx('hide-scrollbar', styles.listContainer)}>
-      {months.map((month, index) => (
+      {months.map((month) => (
         <Month
-          key={month}
-          month={month}
-          onClick={() => onClick(index)}
-          isActive={index === activeMonthIndex}
+          key={month.id}
+          month={month.name}
+          onClick={() => onClick(month.id)}
+          isActive={month.id === activeMonthId}
         />
       ))}
     </div>

@@ -9,28 +9,35 @@ import { MonthList } from './components/Month/List';
 
 dayjs.locale('tr');
 
-const months = [
-  'Ocak',
-  'Şubat',
-  'Mart',
-  'Nisan',
-  'Mayıs',
-  'Haziran',
-  'Temmuz',
-  'Ağustos',
-  'Eylül',
-  'Ekim',
-  'Kasım',
-  'Aralık',
-];
+const months = (() => {
+  const now = dayjs().startOf('month');
+
+  const range = [-2, -1, 0, 1];
+
+  const monthList = range.map((i) => {
+    const date = now.add(i, 'month');
+    return {
+      id: i,
+      name: date.format('MMMM'),
+      date,
+    };
+  });
+
+  return monthList;
+})();
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeMonth, setActiveMonth] = useState(() => new Date().getMonth());
   const { items, addItem, updateItem, removeItem } = useStore();
 
+  const [activeMonthId, setActiveMonthId] = useState(0);
+  const activeMonth = useMemo(
+    () => months.find((i) => i.id === activeMonthId),
+    [activeMonthId]
+  );
+
   const listItems = useMemo(() => {
-    const monthStart = dayjs().set('month', activeMonth).startOf('month');
+    const monthStart = activeMonth?.date || dayjs();
     const monthEnd = monthStart.endOf('month');
 
     const startTime = monthStart.toDate().getTime();
@@ -42,7 +49,7 @@ function App() {
         return itemDate >= startTime && itemDate <= endTime;
       })
       .sort((a, b) => dayjs(b.date).diff(a.date));
-  }, [activeMonth, items]);
+  }, [activeMonth?.date, items]);
 
   const selectedItemId = searchParams.get('item');
   const showCreateModal = Boolean(searchParams.get('showCreate'));
@@ -120,8 +127,8 @@ function App() {
 
         <MonthList
           months={months}
-          onClick={setActiveMonth}
-          activeMonthIndex={activeMonth}
+          onClick={setActiveMonthId}
+          activeMonthId={activeMonthId}
         />
         <div className="mb-3 pl-4 pr-4">
           Toplam {hours} saat {minutes} dakika

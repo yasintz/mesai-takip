@@ -8,11 +8,12 @@
   align-items: center;
   justify-content: center;
   margin-right: 8px;
-  min-width: 82px;
+  min-width: 83px;
   min-height: 32px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.02), 0 6px 20px 0 rgba(0, 0, 0, 0.019);
   &:last-child {
     margin-right: 0;
+    min-width: 85px;
   }
   &.active {
     color: white;
