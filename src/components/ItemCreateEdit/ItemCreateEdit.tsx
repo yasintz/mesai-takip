@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import cx from 'classnames';
 import Calendar from 'react-calendar';
-import { ItemType } from '../useStore';
+import { ItemType } from 'src/useStore';
+import { YesNoToggle } from '../YesNoToggle/YesNoToggle';
+import styles from './style.module.scss';
 
 export function ItemEditCreate({
   item,
@@ -10,24 +12,23 @@ export function ItemEditCreate({
   item?: ItemType;
   onSave: (item: Omit<ItemType, 'id'>) => void;
 }) {
-  const [data, setData] = useState(() => ({
-    date: item?.date ? new Date(item.date) : new Date(),
-    hour: item?.hour?.toString() || '',
-    minute: item?.minute?.toString() || '',
-    note: item?.note || '',
-  }));
+  const [data, setData] = useState({
+    ...item,
+    date: item?.date || new Date().toISOString(),
+  } as ItemType);
 
-  const onChange = (key: keyof typeof data) => (params: any) =>
+  const onChange = (key: keyof ItemType) => (params: any) =>
     setData((prev) => ({ ...prev, [key]: params }));
 
-  const onInputChange = (key: keyof typeof data) => (ev: any) =>
-    setData((prev) => ({
-      ...prev,
-      [key]: ev.target.value,
-    }));
+  const onInputChange =
+    (key: keyof ItemType, checkbox?: boolean) => (ev: any) =>
+      setData((prev) => ({
+        ...prev,
+        [key]: checkbox ? ev.target.checked : ev.target.value,
+      }));
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className={styles.container}>
       <div style={{ display: 'flex', gap: 8 }}>
         <div className="input">
           <span>Saat</span>
@@ -58,17 +59,25 @@ export function ItemEditCreate({
           rows={3}
         />
       </div>
+
       <Calendar onChange={onChange('date')} value={data.date} locale="tr-TR" />
+
+      <YesNoToggle
+        title="Bugun Resmi bir tatil mi?"
+        status={Boolean(data.isPublicHoliday)}
+        onChange={onChange('isPublicHoliday')}
+        className={cx('mt-3')}
+      />
 
       <button
         className={cx('button')}
         style={{ marginTop: 24 }}
         onClick={() =>
           onSave({
-            hour: parseFloat(data.hour || '0'),
-            minute: parseFloat(data.minute || '0'),
+            hour: parseFloat(data.hour?.toString() || '0'),
+            minute: parseFloat(data.minute?.toString() || '0'),
             note: data.note || '',
-            date: data.date.toISOString(),
+            date: new Date(data.date).toISOString(),
           })
         }
       >
