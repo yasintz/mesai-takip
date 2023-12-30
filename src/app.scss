@@ -9,11 +9,19 @@ html,
 #root {
   margin: 0;
   padding: 0;
-  height: calc(100vh - 130px);
+  height: 100vh;
 }
 
 body {
   background-color: #f9f8f7;
+}
+
+.page-container {
+  height: calc(100% - 1rem);
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 0 1rem;
 }
 
 .text-overflow {

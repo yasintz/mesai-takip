@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import styles from './style.module.scss';
 
 import { Month } from '.';
@@ -20,7 +19,7 @@ export const MonthList = ({
   onClick,
 }: MonthListProps) => {
   return (
-    <div className={cx('mb-4', styles.listContainer)}>
+    <div className={styles.listContainer}>
       {months.map((month) => (
         <Month
           key={month.id}

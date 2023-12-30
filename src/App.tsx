@@ -116,16 +116,7 @@ function App() {
 
   return (
     <>
-      <div
-        style={{
-          height: '100%',
-          gap: '1rem',
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '1rem',
-          paddingBottom: 0,
-        }}
-      >
+      <div className="page-container">
         <button className="button" onClick={() => setShowCreateModal(true)}>
           Ekle
         </button>
@@ -142,8 +133,9 @@ function App() {
         <div
           style={{
             overflowY: 'scroll',
-            height: 'calc(100% - 50px)',
+            height: '100%',
           }}
+          className="hide-scrollbar"
         >
           {listItems.map((item) => (
             <Item
