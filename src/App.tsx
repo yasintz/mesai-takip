@@ -82,6 +82,13 @@ function App() {
     closeModal();
   };
 
+  const onRemove = () => {
+    closeModal();
+    setTimeout(() => {
+      removeItem(selectedItemId!);
+    }, 0);
+  };
+
   const totalMinutes = listItems
     .map((i) => i.hour * 60 + i.minute)
     .reduce((acc, res) => acc + res, 0);
@@ -97,24 +104,9 @@ function App() {
             key={selectedItem?.id}
             item={selectedItem}
             onSave={saveItem}
+            onCancel={closeModal}
+            onRemove={selectedItemId ? onRemove : undefined}
           />
-          {selectedItemId && (
-            <button
-              className="button danger"
-              style={{ marginTop: 12 }}
-              onClick={() => {
-                setSearchParams((prev) => ({
-                  ...prev,
-                  item: undefined,
-                }));
-                setTimeout(() => {
-                  removeItem(selectedItemId);
-                }, 0);
-              }}
-            >
-              Sil
-            </button>
-          )}
         </div>
       </>
     );

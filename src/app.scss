@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import 'src/theme.scss';
 
 * {
@@ -71,7 +72,7 @@ body {
   flex: 1;
 
   span {
-    color: #747474;
+    color: map-get($theme-colors, 'label');
   }
   input,
   textarea {
@@ -83,7 +84,7 @@ body {
     -moz-box-shadow: none;
     box-shadow: none;
 
-    border: 1.5px solid #cfcfcf;
+    border: 1.5px solid color.adjust(map-get($theme-colors, 'label'), $alpha: -0.6);
     border-radius: 6px;
     padding: 4px 8px;
     margin-top: 4px;

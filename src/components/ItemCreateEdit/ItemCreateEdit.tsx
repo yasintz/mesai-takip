@@ -3,14 +3,17 @@ import cx from 'classnames';
 import Calendar from 'react-calendar';
 import { ItemType } from 'src/useStore';
 import { YesNoToggle } from '../YesNoToggle/YesNoToggle';
-import styles from './style.module.scss';
 
 export function ItemEditCreate({
   item,
   onSave,
+  onCancel,
+  onRemove,
 }: {
   item?: ItemType;
   onSave: (item: Omit<ItemType, 'id'>) => void;
+  onCancel: () => void;
+  onRemove?: () => void;
 }) {
   const [data, setData] = useState({
     ...item,
@@ -28,7 +31,7 @@ export function ItemEditCreate({
       }));
 
   return (
-    <div className={styles.container}>
+    <>
       <div style={{ display: 'flex', gap: 8 }}>
         <div className="input">
           <span>Saat</span>
@@ -50,14 +53,16 @@ export function ItemEditCreate({
         </div>
       </div>
 
-      <div className="input" style={{ margin: '16px 0' }}>
-        <span>Not</span>
-        <textarea
-          value={data.note}
-          onChange={onInputChange('note')}
-          placeholder="Notunuzu ekleyiniz..."
-          rows={3}
-        />
+      <div>
+        <div className="input">
+          <span>Not</span>
+          <textarea
+            value={data.note}
+            onChange={onInputChange('note')}
+            placeholder="Notunuzu ekleyiniz..."
+            rows={3}
+          />
+        </div>
       </div>
 
       <Calendar onChange={onChange('date')} value={data.date} locale="tr-TR" />
@@ -66,12 +71,10 @@ export function ItemEditCreate({
         title="Bugun Resmi bir tatil mi?"
         status={Boolean(data.isPublicHoliday)}
         onChange={onChange('isPublicHoliday')}
-        className={cx('mt-3')}
       />
 
       <button
         className={cx('button')}
-        style={{ marginTop: 24 }}
         onClick={() =>
           onSave({
             hour: parseFloat(data.hour?.toString() || '0'),
@@ -83,6 +86,14 @@ export function ItemEditCreate({
       >
         Kaydet
       </button>
-    </div>
+      {onRemove && (
+        <button className="button danger" onClick={onRemove}>
+          Sil
+        </button>
+      )}
+      <button className="button secondary" onClick={onCancel}>
+        Geri Git
+      </button>
+    </>
   );
 }
