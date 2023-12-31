@@ -10,7 +10,7 @@
     }
   ],
   "start_url": "/mesai-takip",
-  "display": "fullscreen",
-  "theme_color": "#ff543d",
-  "background_color": "#ff543d"
+  "display": "standalone",
+  "theme_color": "#111111",
+  "background_color": "#111111"
 }
