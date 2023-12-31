@@ -1,11 +1,14 @@
 import dayjs from 'dayjs';
 import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Settings } from 'react-feather';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useStore, ItemType } from './useStore';
 import { Item } from './components/Item/Item';
 import { ItemEditCreate } from './components/ItemCreateEdit/ItemCreateEdit';
-import 'dayjs/locale/tr';
 import { MonthList } from './components/Month/List';
+import 'dayjs/locale/tr';
+import { Button } from './components/Button';
+import styles from 'src/pages/Home/style.module.scss';
 
 dayjs.locale('tr');
 
@@ -27,6 +30,7 @@ const months = (() => {
 })();
 
 function App() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { items, addItem, updateItem, removeItem } = useStore();
 
@@ -114,9 +118,18 @@ function App() {
   return (
     <>
       <div className="page-container">
-        <button className="button" onClick={setShowCreateModal}>
-          + Ekle
-        </button>
+        <div className={styles.headerButtonContainer}>
+          <Button className={styles.button} onClick={setShowCreateModal}>
+            + Ekle
+          </Button>
+
+          <Settings
+            className={styles.icon}
+            onClick={() => {
+              navigate('/mesai-takip/settings');
+            }}
+          />
+        </div>
 
         <MonthList
           months={months}

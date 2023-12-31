@@ -67,7 +67,6 @@ body {
 .input {
   display: flex;
   flex-direction: column;
-  flex: 1;
 
   span {
     @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;

@@ -12,8 +12,16 @@ export type ItemType = {
   isPublicHoliday?: boolean;
 };
 
+type PricesType = {
+  weekdays: number;
+  weekends: number;
+  publicHolidays: number;
+};
+
 type StoreType = {
   items: ItemType[];
+  prices: PricesType;
+  setPrices: (prices: Partial<PricesType>) => void;
   addItem: (item: ItemType) => void;
   updateItem: (id: string, item: Partial<Omit<ItemType, 'id'>>) => void;
   removeItem: (id: string) => void;
@@ -27,6 +35,18 @@ export const useStore = create(
   persist<StoreType>(
     (set) => ({
       items: [],
+      prices: {
+        weekdays: 0,
+        weekends: 0,
+        publicHolidays: 0,
+      },
+      setPrices: (prices) =>
+        set((prev) => ({
+          prices: {
+            ...prev.prices,
+            ...prices,
+          },
+        })),
       addItem: (item) =>
         set((prev) => ({
           items: [...prev.items, item],

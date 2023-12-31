@@ -87,7 +87,14 @@ export function ItemEditCreate({
         Kaydet
       </button>
       {onRemove && (
-        <button className="button danger" onClick={onRemove}>
+        <button
+          className="button danger"
+          onClick={() => {
+            if (confirm('Silmek istediginize eminmisiniz?')) {
+              onRemove();
+            }
+          }}
+        >
           Sil
         </button>
       )}
