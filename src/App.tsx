@@ -104,7 +104,6 @@ function App() {
             key={selectedItem?.id}
             item={selectedItem}
             onSave={saveItem}
-            onCancel={closeModal}
             onRemove={selectedItemId ? onRemove : undefined}
           />
         </div>
@@ -124,7 +123,7 @@ function App() {
           onClick={setActiveMonthId}
           activeMonthId={activeMonthId}
         />
-        <div className='total-text'>
+        <div className="total-text">
           Toplam {hours} saat {minutes} dakika
         </div>
 

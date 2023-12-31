@@ -75,29 +75,11 @@ body {
   input,
   textarea {
     @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
-
-    // outline: none;
-    // border: none;
-    // background-image: none;
-    // background-color: transparent;
-    // -webkit-box-shadow: none;
-    // -moz-box-shadow: none;
-    // box-shadow: none;
-
-    // border: 1.5px solid
-    //   color.adjust(map-get($theme-colors, 'label'), $alpha: -0.6);
-    // border-radius: 6px;
-    // padding: 4px 8px;
-    // margin-top: 4px;
-  }
-
-  input {
-    width: calc(100% - 16px);
   }
 }
 
 .button {
-  @apply text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700;
+  @apply text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700;
 
   &.danger {
     @apply focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900;

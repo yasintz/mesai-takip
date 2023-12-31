@@ -7,12 +7,10 @@ import { YesNoToggle } from '../YesNoToggle/YesNoToggle';
 export function ItemEditCreate({
   item,
   onSave,
-  onCancel,
   onRemove,
 }: {
   item?: ItemType;
   onSave: (item: Omit<ItemType, 'id'>) => void;
-  onCancel: () => void;
   onRemove?: () => void;
 }) {
   const [data, setData] = useState({
@@ -34,7 +32,7 @@ export function ItemEditCreate({
 
   return (
     <>
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', gap: '1rem' }}>
         <div className="input">
           <span>Saat</span>
           <input
@@ -70,7 +68,7 @@ export function ItemEditCreate({
       <Calendar onChange={onChange('date')} value={itemDate} locale="tr-TR" />
 
       <YesNoToggle
-        title="Bugun Resmi bir tatil mi?"
+        title="Bugun resmi bir tatil mi?"
         status={Boolean(data.isPublicHoliday)}
         onChange={onChange('isPublicHoliday')}
       />
@@ -93,9 +91,6 @@ export function ItemEditCreate({
           Sil
         </button>
       )}
-      <button className="button secondary" onClick={onCancel}>
-        Geri Git
-      </button>
     </>
   );
 }
