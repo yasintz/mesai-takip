@@ -1,34 +1,16 @@
 @import 'src/theme.scss';
 
-.container {
-  .title {
-    margin-bottom: 8px;
-    color: map-get($theme-colors, 'label');
-  }
-  .toggle {
-    display: flex;
-    background-color: #bcbcbc;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-    .yes,
-    .no {
-      opacity: 0.3;
-      color: rgb(71, 71, 71);
-
-      &.active {
-        opacity: 1;
-        background-color: map-get($theme-colors, 'dark');
-        color: white;
-      }
-    }
-    & > div {
-      padding: 8px;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
+.title {
+  @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;
+  margin-bottom: 8px;
+}
+.toggle {
+  @apply w-11 h-6 bg-gray-200;
+}
+.answer {
+  @apply ms-3 text-sm font-medium text-gray-900 dark:text-gray-300;
 }

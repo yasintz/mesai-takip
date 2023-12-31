@@ -116,7 +116,7 @@ function App() {
     <>
       <div className="page-container">
         <button className="button" onClick={setShowCreateModal}>
-          Ekle
+          + Ekle
         </button>
 
         <MonthList
@@ -124,7 +124,7 @@ function App() {
           onClick={setActiveMonthId}
           activeMonthId={activeMonthId}
         />
-        <div>
+        <div className='total-text'>
           Toplam {hours} saat {minutes} dakika
         </div>
 
@@ -133,7 +133,7 @@ function App() {
             overflowY: 'scroll',
             height: '100%',
           }}
-          className="hide-scrollbar"
+          className="hide-scrollbar item-list"
         >
           {listItems.map((item) => (
             <Item

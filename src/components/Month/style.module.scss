@@ -1,9 +1,12 @@
 @import 'src/theme.scss';
 
 .container {
+  @apply bg-white
+   dark:bg-gray-800
+   dark:text-gray-200
+   text-gray-900;
+
   border-radius: 6px;
-  background-color: white;
-  color: #6b6d78;
   display: flex;
   align-items: center;
   justify-content: center;

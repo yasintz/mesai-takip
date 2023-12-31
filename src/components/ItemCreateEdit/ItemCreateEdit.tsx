@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import cx from 'classnames';
 import Calendar from 'react-calendar';
 import { ItemType } from 'src/useStore';
@@ -19,6 +19,8 @@ export function ItemEditCreate({
     ...item,
     date: item?.date || new Date().toISOString(),
   } as ItemType);
+
+  const itemDate = useMemo(() => new Date(data.date), [data.date]);
 
   const onChange = (key: keyof ItemType) => (params: any) =>
     setData((prev) => ({ ...prev, [key]: params }));
@@ -65,7 +67,7 @@ export function ItemEditCreate({
         </div>
       </div>
 
-      <Calendar onChange={onChange('date')} value={data.date} locale="tr-TR" />
+      <Calendar onChange={onChange('date')} value={itemDate} locale="tr-TR" />
 
       <YesNoToggle
         title="Bugun Resmi bir tatil mi?"
