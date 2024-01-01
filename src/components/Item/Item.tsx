@@ -1,8 +1,9 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { ItemType } from 'src/useStore';
+import { ItemType, PricesType } from 'src/useStore';
 import cx from 'classnames';
 import styles from './styles.module.scss';
+import { itemPriceCalculator } from 'src/utils/calc';
 
 function getTimeText(item: ItemType) {
   if (item.minute && item.hour) {
@@ -21,13 +22,19 @@ export function Item({
   item,
   active,
   onItemClick,
+  prices,
 }: {
   item: ItemType;
   active?: boolean;
   onItemClick: () => void;
+  prices: PricesType;
 }) {
   const dateInstance = React.useMemo(() => dayjs(item.date), [item.date]);
 
+  const itemPrice = React.useMemo(
+    () => Math.round(itemPriceCalculator(item, prices)),
+    [item, prices]
+  );
   const day = React.useMemo(
     () => dateInstance.format('DD MMMM, dddd'),
     [dateInstance]
@@ -44,18 +51,19 @@ export function Item({
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
+            gap: 4,
           }}
         >
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              marginBottom: 12,
             }}
           >
             <div className={styles.title}>{day}</div>
-
-            <div className={styles.subtitle}>{getTimeText(item)}</div>
+          </div>
+          <div className={styles.subtitle}>
+            {getTimeText(item)} → {itemPrice} TL
           </div>
           <div
             style={{

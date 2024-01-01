@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { throttle } from './utils/throttle';
+import _debounce from 'lodash/debounce';
 import { googleSheetDb } from './utils/googleSheetDb';
 
 export type ItemType = {
@@ -12,7 +12,7 @@ export type ItemType = {
   isPublicHoliday?: boolean;
 };
 
-type PricesType = {
+export type PricesType = {
   weekdays: number;
   weekends: number;
   publicHolidays: number;
@@ -66,7 +66,7 @@ export const useStore = create(
   )
 );
 
-const throttledReSync = throttle((store: StoreType) => {
+const throttledReSync = _debounce((store: StoreType) => {
   const storageData = {
     ...store,
     items: store.items.map((i) => ({
@@ -76,7 +76,7 @@ const throttledReSync = throttle((store: StoreType) => {
   };
 
   googleSheetDb(sheetTabId).set(JSON.stringify(storageData));
-}, 2000);
+}, 500);
 
 googleSheetDb(sheetTabId)
   .get()

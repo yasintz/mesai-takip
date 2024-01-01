@@ -17,7 +17,7 @@ export const Input = ({
     <div className="input">
       <span>{label}</span>
       <input
-        value={value}
+        value={value || ''}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         type={type}

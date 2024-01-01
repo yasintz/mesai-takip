@@ -6,6 +6,7 @@ import { Item } from './components/Item/Item';
 import { MonthList } from './components/Month/List';
 import 'dayjs/locale/tr';
 import { routePaths } from './utils/routes';
+import { itemPriceCalculator } from './utils/calc';
 // import styles from 'src/pages/Home/style.module.scss';
 
 dayjs.locale('tr');
@@ -29,7 +30,7 @@ const months = (() => {
 
 function App() {
   const navigate = useNavigate();
-  const { items } = useStore();
+  const { items, prices } = useStore();
 
   const [activeMonthId, setActiveMonthId] = useState(0);
   const activeMonth = useMemo(
@@ -56,6 +57,12 @@ function App() {
     .map((i) => i.hour * 60 + i.minute)
     .reduce((acc, res) => acc + res, 0);
 
+  const totalPrice = Math.round(
+    listItems
+      .map((i) => itemPriceCalculator(i, prices))
+      .reduce((acc, res) => acc + res, 0)
+  );
+
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes - hours * 60;
 
@@ -67,7 +74,7 @@ function App() {
         activeMonthId={activeMonthId}
       />
       <div className="total-text">
-        Toplam {hours} saat {minutes} dakika
+        Toplam {hours} saat {minutes} dakika → {totalPrice} TL
       </div>
 
       <div className="hide-scrollbar item-list">
@@ -76,6 +83,7 @@ function App() {
             key={item.id}
             item={item}
             onItemClick={() => navigate(routePaths.edit(item.id))}
+            prices={prices}
           />
         ))}
       </div>
