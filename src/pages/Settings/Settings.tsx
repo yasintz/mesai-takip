@@ -14,7 +14,7 @@ export const Settings = () => {
   const { prices, setPrices } = useStore();
 
   return (
-    <div className="page-container">
+    <>
       <Button
         onClick={() => {
           if (document.documentElement.getAttribute('data-mode')) {
@@ -50,6 +50,6 @@ export const Settings = () => {
         value={prices.publicHolidays?.toString()}
         onChange={(val) => setPrices({ publicHolidays: parseFloat(val) })}
       />
-    </div>
+    </>
   );
 };
