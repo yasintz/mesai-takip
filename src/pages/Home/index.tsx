@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
-import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useStore } from './useStore';
-import { Item } from './components/Item/Item';
-import { MonthList } from './components/Month/List';
+import { useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useStore } from 'src/useStore';
+import { Item } from 'src/components/Item/Item';
+import { MonthList } from 'src/components/Month/List';
 import 'dayjs/locale/tr';
-import { routePaths } from './utils/routes';
-import { itemPriceCalculator } from './utils/calc';
+import { routePaths } from 'src/utils/routes';
+import { itemPriceCalculator } from 'src/utils/calc';
 // import styles from 'src/pages/Home/style.module.scss';
 
 dayjs.locale('tr');
@@ -28,11 +28,19 @@ const months = (() => {
   return monthList;
 })();
 
-function App() {
+export function Home() {
   const navigate = useNavigate();
   const { items, prices } = useStore();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [activeMonthId, setActiveMonthId] = useState(0);
+  const activeMonthId = parseInt(searchParams.get('activeMonthId') || '0');
+
+  const setActiveMonthId = (monthId: number) =>
+    setSearchParams((params) => {
+      params.set('activeMonthId', monthId.toString());
+      return params;
+    });
+
   const activeMonth = useMemo(
     () => months.find((i) => i.id === activeMonthId),
     [activeMonthId]
@@ -90,5 +98,3 @@ function App() {
     </>
   );
 }
-
-export default App;

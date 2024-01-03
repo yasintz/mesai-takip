@@ -5,9 +5,9 @@ import { routePaths } from 'src/utils/routes';
 export const BottomTab = () => {
   const navigate = useNavigate();
 
-  const openCreate = () => navigate(routePaths.create(), { replace: true });
-  const openHome = () => navigate(routePaths.home(), { replace: true });
-  const openSettings = () => navigate(routePaths.settings(), { replace: true });
+  const openCreate = () => navigate(routePaths.create());
+  const openHome = () => navigate(routePaths.home());
+  const openSettings = () => navigate(routePaths.settings());
 
   return (
     <div className="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border-t border-gray-200 bottom-0 left-1/2 dark:bg-gray-900 dark:border-gray-600">

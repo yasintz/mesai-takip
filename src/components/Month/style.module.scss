@@ -10,14 +10,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 8px;
-  min-width: 83px;
-  min-height: 32px;
+  font-size: 1rem;
+  min-height: 2rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.02), 0 6px 20px 0 rgba(0, 0, 0, 0.019);
-  &:last-child {
-    margin-right: 0;
-    min-width: 85px;
-  }
+  flex: 1;
   &.active {
     color: white;
     background-color: map-get($theme-colors, 'primary');
@@ -27,4 +23,5 @@
 .listContainer {
   display: flex;
   width: 100%;
+  gap: 8px;
 }
