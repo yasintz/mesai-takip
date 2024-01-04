@@ -31,7 +31,14 @@ export function ItemEditCreate({
       }));
 
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        paddingBottom: '1rem',
+        gap: '1rem',
+      }}
+    >
       <div style={{ display: 'flex', gap: '1rem' }}>
         <div className="input">
           <span>Saat</span>
@@ -98,6 +105,6 @@ export function ItemEditCreate({
           Sil
         </button>
       )}
-    </>
+    </div>
   );
 }
