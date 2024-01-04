@@ -23,12 +23,11 @@ export function ItemEditCreate({
   const onChange = (key: keyof ItemType) => (params: any) =>
     setData((prev) => ({ ...prev, [key]: params }));
 
-  const onInputChange =
-    (key: keyof ItemType, checkbox?: boolean) => (ev: any) =>
-      setData((prev) => ({
-        ...prev,
-        [key]: checkbox ? ev.target.checked : ev.target.value,
-      }));
+  const onInputChange = (key: keyof ItemType) => (ev: any) =>
+    setData((prev) => ({
+      ...prev,
+      [key]: ev.target.value,
+    }));
 
   return (
     <div
@@ -84,6 +83,7 @@ export function ItemEditCreate({
         className={cx('button')}
         onClick={() =>
           onSave({
+            ...data,
             hour: parseFloat(data.hour?.toString() || '0'),
             minute: parseFloat(data.minute?.toString() || '0'),
             note: data.note || '',
